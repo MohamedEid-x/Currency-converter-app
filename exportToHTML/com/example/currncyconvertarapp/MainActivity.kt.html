@@ -1,0 +1,93 @@
+<html>
+<head>
+<title>MainActivity.kt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #808080;}
+.s3 { color: #6a8759;}
+.s4 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MainActivity.kt</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.example.currncyconvertarapp</span>
+<span class="s1">import android.os.Bundle</span>
+<span class="s1">import android.util.Log</span>
+<span class="s1">import android.widget.ArrayAdapter</span>
+<span class="s1">import android.widget.AutoCompleteTextView</span>
+<span class="s1">import android.widget.Button</span>
+<span class="s1">import android.widget.Toast</span>
+<span class="s1">import androidx.appcompat.app.AppCompatActivity</span>
+<span class="s1">import com.example.currncyconvertarapp.R.id.result</span>
+<span class="s1">import com.example.currncyconvertarapp.R.id.to_currency_mune</span>
+<span class="s1">import com.google.android.material.textfield.TextInputEditText</span>
+
+<span class="s0">class </span><span class="s1">MainActivity : AppCompatActivity(){</span>
+    <span class="s2">//val TAG= &quot;MainActivity&quot;</span>
+    <span class="s1">private </span><span class="s0">val </span><span class="s1">egyptionbound=</span><span class="s3">&quot;EGP&quot;</span>
+    <span class="s1">private </span><span class="s0">val </span><span class="s1">americandollar=</span><span class="s3">&quot;USD&quot;</span>
+    <span class="s1">private </span><span class="s0">val </span><span class="s1">AED=</span><span class="s3">&quot;AED&quot;</span>
+    <span class="s1">private </span><span class="s0">val </span><span class="s1">GBP=</span><span class="s3">&quot;GBP&quot;</span>
+<span class="s2">// strings created to use it in list in the next step</span>
+
+    <span class="s1">lateinit </span><span class="s0">var  </span><span class="s1">ConvertButton: Button</span>
+    <span class="s1">lateinit </span><span class="s0">var </span><span class="s1">amountEt : TextInputEditText</span>
+    <span class="s1">lateinit </span><span class="s0">var </span><span class="s1">showentext : TextInputEditText</span>
+    <span class="s1">lateinit </span><span class="s0">var </span><span class="s1">Tomune: AutoCompleteTextView</span>
+    <span class="s1">lateinit </span><span class="s0">var  </span><span class="s1">from_menu:AutoCompleteTextView</span>
+
+
+<span class="s0">val </span><span class="s1">values= mapOf(</span>
+     <span class="s1">egyptionbound to </span><span class="s4">19.68</span><span class="s0">,</span>
+    <span class="s1">americandollar to </span><span class="s4">1.0 </span><span class="s0">,</span>
+    <span class="s1">AED to </span><span class="s4">3.67</span><span class="s0">,</span>
+    <span class="s1">GBP to </span><span class="s4">0.91</span>
+<span class="s1">)</span>
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onCreate(savedInstanceState: Bundle?) {</span>
+        <span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span>
+        <span class="s1">setContentView(R.layout.activity_main)</span>
+
+        <span class="s1">findview()</span>
+        <span class="s1">pouplateDropDownmenu()</span>
+
+
+
+        <span class="s1">ConvertButton.setOnClickListener {</span>
+
+            <span class="s0">val </span><span class="s1">amount= amountEt.text.toString().toDouble()</span>
+            <span class="s0">val </span><span class="s1">tovalue=values[Tomune.text.toString()]</span>
+            <span class="s0">val </span><span class="s1">fromvalue=values[from_menu.text.toString()]</span>
+            <span class="s0">val </span><span class="s1">res= amount.times(tovalue!!.div(fromvalue!!))</span>
+
+            <span class="s1">showentext.setText(res.toString())</span>
+        <span class="s1">}</span>
+        <span class="s1">}</span>
+
+
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">pouplateDropDownmenu(){</span>
+        <span class="s0">val </span><span class="s1">listofcountries= listOf(GBP</span><span class="s0">,</span><span class="s1">AED</span><span class="s0">,</span><span class="s1">americandollar</span><span class="s0">,</span><span class="s1">egyptionbound) </span><span class="s2">// create text from strings your created before at the top</span>
+        <span class="s0">val </span><span class="s1">adapter= ArrayAdapter(</span><span class="s0">this,</span><span class="s1">R.layout.drop_down_list_item</span><span class="s0">,</span><span class="s1">listofcountries) </span><span class="s2">// Arrayadapter(context,layout,list).... adapter used to convert from one string to more than one string</span>
+        <span class="s1">Tomune.setAdapter(adapter) </span><span class="s2">//use set adapter method to set the adapter on the created adapter</span>
+        <span class="s1">from_menu.setAdapter(adapter)</span>
+    <span class="s1">}</span>
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">findview(){</span>
+        <span class="s1">ConvertButton= findViewById(R.id.convert_button)</span>
+        <span class="s1">amountEt  = findViewById(R.id.AmountEditText)</span>
+        <span class="s1">showentext  = findViewById(R.id.result)</span>
+        <span class="s1">Tomune =findViewById(R.id.to_currency_mune)</span>
+        <span class="s1">from_menu=findViewById(R.id.form_doropdown_menu)</span>
+
+    <span class="s1">}</span>
+
+<span class="s1">}</span>
+
+
+</pre>
+</body>
+</html>
